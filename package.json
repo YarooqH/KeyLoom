@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "keyloom": "./dist/passgen.js"
+    "keyloom": "dist/passgen.js"
   },
   "scripts": {
     "build": "tsc",
