@@ -71,7 +71,7 @@ async function handlePasswordGeneration(options, passwordOptions) {
 }
 // Configure CLI program
 program
-    .name('ourpassgen')
+    .name('keyloom')
     .description('Generate secure random passwords and copy them to clipboard')
     .version('1.0.0');
 // Default command (no subcommand)

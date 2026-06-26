@@ -1,11 +1,11 @@
 {
-  "name": "ourpassgen-cli",
+  "name": "keyloom",
   "version": "1.0.4",
   "description": "A CLI tool to generate secure random passwords and copy them to clipboard",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "ourpassgen": "./dist/passgen.js"
+    "keyloom": "./dist/passgen.js"
   },
   "scripts": {
     "build": "tsc",
@@ -29,13 +29,13 @@
     "clipboard"
   ],
   "author": "YarooqH <yarooq1@gmail.com>",
-  "homepage": "https://github.com/YarooqH/OurPassGen#readme",
+  "homepage": "https://github.com/YarooqH/keyloom#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YarooqH/OurPassGen.git"
+    "url": "git+https://github.com/YarooqH/keyloom.git"
   },
   "bugs": {
-    "url": "https://github.com/YarooqH/OurPassGen/issues"
+    "url": "https://github.com/YarooqH/keyloom/issues"
   },
   "license": "MIT",
   "engines": {

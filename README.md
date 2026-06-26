@@ -1,4 +1,4 @@
-# OurPassGen CLI
+# KeyLoom CLI
 
 A secure, customizable password generator CLI tool that generates random passwords and automatically copies them to your clipboard.
 
@@ -16,13 +16,13 @@ A secure, customizable password generator CLI tool that generates random passwor
 ### Global Installation
 
 ```bash
-npm install -g ourpassgen-cli
+npm install -g keyloom
 ```
 
 ### Using npx (No Installation Required)
 
 ```bash
-npx ourpassgen-cli
+npx keyloom
 ```
 
 ## Usage
@@ -32,15 +32,15 @@ npx ourpassgen-cli
 Generate a default 16-character password and copy to clipboard:
 
 ```bash
-ourpassgen
+keyloom
 # or
-npx ourpassgen-cli
+npx keyloom
 ```
 
 ### Command Options
 
 ```bash
-ourpassgen [options] [command]
+keyloom [options] [command]
 ```
 
 #### Options
@@ -59,19 +59,19 @@ ourpassgen [options] [command]
 
 ```bash
 # Generate a 12-character password (includes symbols by default)
-ourpassgen -l 12
+keyloom -l 12
 
 # Generate a password without symbols
-ourpassgen --no-symbols
+keyloom --no-symbols
 
 # Generate a password without ambiguous characters
-ourpassgen -x
+keyloom -x
 
 # Generate a password and display it (don't copy to clipboard)
-ourpassgen --no-copy
+keyloom --no-copy
 
 # Generate a password with only lowercase and numbers
-ourpassgen --no-uppercase --no-symbols
+keyloom --no-uppercase --no-symbols
 ```
 
 ### Preset Commands
@@ -80,28 +80,28 @@ ourpassgen --no-uppercase --no-symbols
 Generate a simple password with letters, numbers, and symbols (no ambiguous characters):
 
 ```bash
-ourpassgen simple
-ourpassgen simple -l 10  # Custom length
-ourpassgen simple --no-clipboard  # Don't copy to clipboard
+keyloom simple
+keyloom simple -l 10  # Custom length
+keyloom simple --no-clipboard  # Don't copy to clipboard
 ```
 
 #### Strong Password
 Generate a strong password with all character types (default: 20 characters):
 
 ```bash
-ourpassgen strong
-ourpassgen strong -l 24  # Custom length (default: 20)
-ourpassgen strong --no-clipboard  # Don't copy to clipboard
+keyloom strong
+keyloom strong -l 24  # Custom length (default: 20)
+keyloom strong --no-clipboard  # Don't copy to clipboard
 ```
 
 #### PIN Generation
 Generate a numeric PIN (default: 6 digits):
 
 ```bash
-ourpassgen pin
-ourpassgen pin -l 4   # 4-digit PIN
-ourpassgen pin -l 8   # 8-digit PIN
-ourpassgen pin --no-clipboard  # Don't copy to clipboard
+keyloom pin
+keyloom pin -l 4   # 4-digit PIN
+keyloom pin -l 8   # 8-digit PIN
+keyloom pin --no-clipboard  # Don't copy to clipboard
 ```
 
 ## Library Usage
@@ -111,13 +111,13 @@ You can also use this package as a library in your Node.js or React/Next.js appl
 ### Installation
 
 ```bash
-npm install ourpassgen-cli
+npm install keyloom
 ```
 
 ### Basic Usage
 
 ```typescript
-import { generatePassword } from 'ourpassgen-cli';
+import { generatePassword } from 'keyloom';
 
 // Generate a default password (16 chars, letters/numbers/symbols)
 const password = generatePassword({ length: 16 });
@@ -127,7 +127,7 @@ console.log(password);
 ### Advanced Usage
 
 ```typescript
-import { generatePassword } from 'ourpassgen-cli';
+import { generatePassword } from 'keyloom';
 
 const password = generatePassword({
   length: 24,
@@ -164,12 +164,12 @@ This tool uses Node.js's built-in `crypto.getRandomValues()` function to ensure 
 1. Clone the repository
 2. Install dependencies: `npm install`
 3. Link for local testing: `npm link`
-4. Test the CLI: `ourpassgen --help`
+4. Test the CLI: `keyloom --help`
 
 ### Project Structure
 
 ```
-ourpassgen-cli/
+keyloom/
 ├── bin/
 │   └── passgen.js      # Main CLI script
 ├── package.json        # Package configuration
