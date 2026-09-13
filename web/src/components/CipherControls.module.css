@@ -1,0 +1,181 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 18px;
+  width: 100%;
+}
+
+/* === Length === */
+.lengthRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--cipher-accent, rgba(255, 170, 0, 0.1));
+}
+
+.lengthHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: var(--cipher-text-muted, rgba(255, 255, 255, 0.55));
+  text-transform: uppercase;
+}
+
+.lengthBadge {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cipher-accent, #ffaa00);
+  letter-spacing: 0.05em;
+}
+
+.sliderContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tickLabel {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: var(--cipher-text-muted, rgba(255, 255, 255, 0.4));
+  letter-spacing: 0.1em;
+}
+
+/* Thin glowing amber line — visible but elegant, not a chunky track */
+.slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2px;
+  background: var(--cipher-accent, rgba(255, 170, 0, 0.35));
+  outline: none;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+
+.slider:hover {
+  background: var(--cipher-accent, rgba(255, 170, 0, 0.55));
+}
+
+/* Glowing amber thumb — a slim rounded bar, not a flat chunky block */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 6px;
+  height: 20px;
+  background: var(--cipher-accent, #ffe680);
+  cursor: pointer;
+  border-radius: 999px;
+  box-shadow: 0 0 8px var(--cipher-accent, rgba(255, 170, 0, 0.6));
+  transition: transform 0.12s, box-shadow 0.2s;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scaleY(1.15);
+  box-shadow: 0 0 12px var(--cipher-accent, rgba(255, 230, 128, 0.85));
+}
+
+.slider:focus-visible {
+  outline: 2px solid var(--cipher-accent, rgba(255, 170, 0, 0.5));
+  outline-offset: 4px;
+}
+
+.slider::-moz-range-thumb {
+  width: 6px;
+  height: 20px;
+  border: none;
+  background: var(--cipher-accent, #ffe680);
+  cursor: pointer;
+  border-radius: 999px;
+  box-shadow: 0 0 8px var(--cipher-accent, rgba(255, 170, 0, 0.6));
+}
+
+.slider::-moz-range-thumb:hover {
+  box-shadow: 0 0 12px var(--cipher-accent, rgba(255, 230, 128, 0.85));
+}
+
+/* === Toggles — slim pill chips, not chunky boxes === */
+.toggles {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--cipher-border-subtle, rgba(255, 255, 255, 0.18));
+  background: transparent;
+  color: var(--cipher-text-muted, rgba(255, 255, 255, 0.6));
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  border-radius: 6px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toggle:hover:not(:disabled) {
+  border-color: var(--cipher-accent, rgba(255, 170, 0, 0.4));
+  color: var(--cipher-text-hover, rgba(255, 255, 255, 0.85));
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--cipher-accent, rgba(255, 170, 0, 0.5));
+  outline-offset: 3px;
+}
+
+.toggle:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.toggleDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cipher-text-muted, rgba(255, 255, 255, 0.35));
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toggleActive {
+  color: var(--cipher-accent, #ffe680);
+  border-color: var(--cipher-accent, rgba(255, 170, 0, 0.65));
+  background: var(--cipher-accent-soft, rgba(255, 170, 0, 0.08));
+  font-weight: 600;
+}
+
+.toggleActive .toggleDot {
+  background: var(--cipher-accent, #ffaa00);
+  box-shadow: 0 0 6px var(--cipher-accent, rgba(255, 170, 0, 0.65));
+}
+
+.toggleLabel {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 720px) {
+  .toggles { gap: 8px; }
+  .toggle { padding: 8px 14px; font-size: 0.66rem; }
+  .label { font-size: 0.62rem; }
+  .lengthBadge { font-size: 0.95rem; }
+}

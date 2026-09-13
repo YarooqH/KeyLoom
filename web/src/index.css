@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+:root {
+  /* Color Palette */
+  --color-void: #050508;
+  --color-void-light: #0d1117;
+  --color-solar-flare: #ff4500;
+  --color-solar-flare-amber: #ffaa00;
+  --color-nebula-teal: #008080;
+  --color-nebula-cyan: #2d8c8c;
+  --color-text-primary: #ffffff;
+  --color-text-muted: #8b9a9a;
+
+  /* Fonts */
+  --font-display: "Bebas Neue", sans-serif;
+  --font-mono: "Space Mono", monospace;
+  --font-ui: "Outfit", sans-serif;
+
+  font-synthesize: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-text-primary);
+  font-family: var(--font-ui);
+}
+
+::selection {
+  background: var(--color-solar-flare);
+  color: var(--color-void);
+}
+
+/* Scrollbar — hide globally since there's no scroll */
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  scrollbar-width: none;
+}

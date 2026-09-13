@@ -1,5 +1,3 @@
-import { randomBytes } from 'crypto';
-
 // Character sets for password generation
 export const CHAR_SETS = {
   lowercase: 'abcdefghijklmnopqrstuvwxyz',
@@ -27,7 +25,9 @@ export interface PasswordOptions {
 function getSecureRandomBytes(length: number): Uint8Array {
   // Check for Node.js environment
   if (typeof process !== 'undefined' && process.versions && process.versions.node) {
-    return new Uint8Array(randomBytes(length));
+    // Hide require from bundlers
+    const crypto = eval("require('crypto')");
+    return new Uint8Array(crypto.randomBytes(length));
   }
   // Check for Browser environment
   if (typeof window !== 'undefined' && window.crypto) {

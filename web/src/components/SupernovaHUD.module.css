@@ -1,0 +1,142 @@
+.hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* === Crosshair === */
+.crosshair {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.crosshair::before,
+.crosshair::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.45);
+  transition: background 0.3s ease;
+}
+
+.crosshair::before {
+  width: 20px;
+  height: 1px;
+  top: 0;
+  left: -10px;
+}
+
+.crosshair::after {
+  width: 1px;
+  height: 20px;
+  top: -10px;
+  left: 0;
+}
+
+.crosshairDot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 107, 53, 0.85);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.locked::before,
+.locked::after {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.locked .crosshairDot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 14px rgba(255, 107, 53, 0.7);
+}
+
+/* === Coords readout (follows crosshair) === */
+.coords {
+  position: absolute;
+  left: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.coordSep {
+  margin: 0 8px;
+  opacity: 0.35;
+}
+
+/* === Corner viewfinder brackets === */
+.corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.tl {
+  top: 96px;
+  left: 48px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.tr {
+  top: 96px;
+  right: 48px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.bl {
+  bottom: 240px;
+  left: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.br {
+  bottom: 240px;
+  right: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* === UTC Clock (top-right) === */
+.clock {
+  position: absolute;
+  top: 96px;
+  right: 48px;
+  text-align: right;
+  font-family: var(--font-mono);
+  pointer-events: none;
+}
+
+.clockLabel {
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.25em;
+  margin-bottom: 4px;
+}
+
+.clockTime {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.1em;
+}
+
+/* Responsive: hide corner brackets and shrink clock on narrow viewports */
+@media (max-width: 720px) {
+  .corner { display: none; }
+  .clockLabel { font-size: 0.5rem; }
+  .clockTime { font-size: 0.65rem; }
+}

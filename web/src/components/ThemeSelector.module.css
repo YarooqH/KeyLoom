@@ -1,0 +1,180 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.root > * {
+  pointer-events: auto;
+}
+
+/* === Trigger button === */
+.trigger {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(10, 12, 20, 0.55);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.7);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+.trigger:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  transform: translateY(-1px);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 3px;
+}
+
+.triggerSwatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.chevron {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: rgba(10, 12, 20, 0.9);
+  border-radius: 50%;
+  padding: 2px;
+  box-sizing: content-box;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* === Expandable panel === */
+.panel {
+  position: absolute;
+  bottom: 50px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(10, 12, 20, 0.82);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  width: 280px;
+  transform-origin: bottom right;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.headerLabel {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.headerName {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rowLabel {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.32);
+  width: 36px;
+  flex-shrink: 0;
+}
+
+.swatches {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* === Swatch === */
+.swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.swatchInner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.25s, transform 0.2s;
+}
+
+.swatch:hover .swatchInner {
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.18);
+  transform: scale(1.08);
+}
+
+.swatch:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.swatchSelected {
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.swatchSelected .swatchInner {
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 720px) {
+  .panel { width: 260px; padding: 12px 14px; }
+  .trigger { width: 38px; height: 38px; }
+  .triggerSwatch { width: 16px; height: 16px; }
+  .swatch { width: 22px; height: 22px; }
+  .swatchInner { width: 16px; height: 16px; }
+}

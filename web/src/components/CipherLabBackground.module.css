@@ -1,0 +1,93 @@
+/* ---- OT-mode hosts (direct children of the canvas) ----
+   No background / no border — the canvas already cuts a clean slit (WINDOW_HALF)
+   for the password, and the controls float over the softened bottom. A backing
+   box here would double-darken / misalign. They are rasterized INTO the canvas
+   via drawElementImage, so transparent + max-content sizing is correct. */
+
+.passwordHost {
+  width: max-content;
+  max-width: 92vw;
+  padding: 6px 12px;
+}
+
+.controlsHost {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: max-content;
+  max-width: 92vw;
+  padding: 14px 24px;
+}
+
+/* ---- Fallback-mode hosts (normal DOM overlays) ---- */
+
+.passwordFallback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: max-content;
+  max-width: 92vw;
+  padding: 6px 12px;
+  pointer-events: auto;
+}
+
+.controlsFallback {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 640px;
+  padding: 0 24px;
+  pointer-events: none;
+}
+.controlsFallback > * {
+  pointer-events: auto;
+}
+
+.notice {
+  position: absolute;
+  top: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  max-width: 660px;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 170, 0, 0.35);
+  background: rgba(8, 12, 20, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: center;
+  pointer-events: none;
+}
+.notice code {
+  color: #ffaa00;
+  background: rgba(255, 170, 0, 0.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* Canvas focus outline for keyboard users */
+canvas:focus-visible {
+  outline: 2px dashed var(--cipher-accent, rgba(255, 170, 0, 0.75));
+  outline-offset: -6px;
+}
+
+@media (max-width: 720px) {
+  .passwordHost, .passwordFallback { padding: 4px 8px; max-width: 94vw; }
+  .controlsHost, .controlsFallback { gap: 12px; }
+  .controlsFallback { bottom: 24px; }
+}

@@ -1,0 +1,147 @@
+.panel {
+  width: 100%;
+  max-width: 920px;
+  z-index: 10;
+  padding: 18px 28px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  background: rgba(8, 12, 20, 0.55);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 80px rgba(255, 107, 53, 0.06);
+}
+
+/* === Status / instrumentation bar === */
+.statusBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.statusLabel {
+  color: var(--color-text-muted);
+  font-size: 0.65rem;
+}
+
+.statusValue {
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff6b35;
+  box-shadow: 0 0 8px #ff6b35, 0 0 14px rgba(255, 107, 53, 0.4);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+.statusDivider {
+  width: 1px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+/* === Content row (horizontal) === */
+.contentRow {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+}
+
+.output {
+  flex: 1.5;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.divider {
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.08) 30%,
+    rgba(255, 255, 255, 0.08) 70%,
+    transparent
+  );
+  flex-shrink: 0;
+}
+
+.sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 280px;
+  max-width: 340px;
+}
+
+.actionContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.85); }
+}
+
+/* Responsive: stack vertically on narrow viewports */
+@media (max-width: 720px) {
+  .panel {
+    padding: 14px 16px 16px;
+  }
+  .contentRow {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.08) 30%,
+      rgba(255, 255, 255, 0.08) 70%,
+      transparent
+    );
+  }
+  .sidebar {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .statusBar {
+    font-size: 0.6rem;
+    gap: 10px;
+  }
+  .statusDivider {
+    display: none;
+  }
+}

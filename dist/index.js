@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CHAR_SETS = void 0;
 exports.generatePassword = generatePassword;
-const crypto_1 = require("crypto");
 // Character sets for password generation
 exports.CHAR_SETS = {
     lowercase: 'abcdefghijklmnopqrstuvwxyz',
@@ -19,7 +18,9 @@ exports.CHAR_SETS = {
 function getSecureRandomBytes(length) {
     // Check for Node.js environment
     if (typeof process !== 'undefined' && process.versions && process.versions.node) {
-        return new Uint8Array((0, crypto_1.randomBytes)(length));
+        // Hide require from bundlers
+        const crypto = eval("require('crypto')");
+        return new Uint8Array(crypto.randomBytes(length));
     }
     // Check for Browser environment
     if (typeof window !== 'undefined' && window.crypto) {
