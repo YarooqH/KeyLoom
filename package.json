@@ -29,13 +29,13 @@
     "clipboard"
   ],
   "author": "YarooqH <yarooq1@gmail.com>",
-  "homepage": "https://github.com/YarooqH/keyloom#readme",
+  "homepage": "https://github.com/YarooqH/KeyLoom#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YarooqH/keyloom.git"
+    "url": "git+https://github.com/YarooqH/KeyLoom.git"
   },
   "bugs": {
-    "url": "https://github.com/YarooqH/keyloom/issues"
+    "url": "https://github.com/YarooqH/KeyLoom/issues"
   },
   "license": "MIT",
   "engines": {
