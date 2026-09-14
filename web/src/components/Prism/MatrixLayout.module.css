@@ -1,0 +1,81 @@
+.appRoot {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--theme-bg, #050508);
+  color: #ffffff;
+  font-family: var(--font-ui, 'Outfit', sans-serif);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  transition: background-color 0.4s ease;
+}
+
+/* Subtle holographic grid lines overlay */
+.hologramGrid {
+  position: fixed;
+  inset: 0;
+  background-size: 60px 60px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ambient radial glow in background */
+.radialAtmosphere {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 35%, var(--theme-accent-soft, rgba(56, 189, 248, 0.12)) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Main Interactive Content Area */
+.mainContainer {
+  position: relative;
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 92px 20px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+/* Floating bottom instruction pill */
+.footerHint {
+  position: relative;
+  margin-top: 12px;
+  padding: 8px 18px;
+  background: rgba(10, 14, 26, 0.35);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+
+.footerSparkle {
+  color: var(--theme-accent, #38bdf8);
+}
+
+@media (max-width: 768px) {
+  .mainContainer {
+    padding: 80px 14px 40px;
+    gap: 16px;
+  }
+}

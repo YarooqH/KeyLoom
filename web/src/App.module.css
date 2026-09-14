@@ -57,11 +57,34 @@
   -webkit-mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>') no-repeat center / contain;
 }
 
+.logoMark {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  color: var(--color-text-primary);
+}
+
+.logoMark circle {
+  fill: currentColor;
+}
+
+.logoAccent {
+  fill: #ffaa00 !important;
+}
+
+.nav[data-dither-theme='light'] .logoAccent {
+  fill: #e24a30 !important;
+}
+
+.nav[data-dither-theme='dark'] .logoAccent {
+  fill: #f47a62 !important;
+}
+
 .logoText {
   font-family: var(--font-display);
-  font-size: 1.2rem;
-  letter-spacing: 0.15em;
-  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  font-weight: 600;
   color: var(--color-text-primary);
 }
 
@@ -69,6 +92,55 @@
   display: flex;
   gap: 32px;
   align-items: center;
+}
+
+.routeLinks {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.navTools {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 22px;
+}
+
+.themeToggle {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 7px 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font: 600 0.72rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+.nav[data-dither-theme='light'] .themeToggle {
+  color: #171715;
+}
+
+.nav[data-dither-theme='dark'] .themeToggle {
+  color: #f1ede4;
+}
+
+.themeToggle:hover {
+  color: #e24a30;
+}
+
+.nav[data-dither-theme='dark'] .themeToggle:hover {
+  color: #f47a62;
+}
+
+.themeToggle:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
 }
 
 .navLinks a {
@@ -203,4 +275,26 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+@media (max-width: 900px) {
+  .nav {
+    height: 64px;
+    padding: 0 18px;
+    gap: 16px;
+  }
+
+  .logoIcon, .logoMark { width: 19px; height: 19px; flex-basis: 19px; }
+  .logoText { font-size: 1rem; }
+
+  .navTools { gap: 12px; }
+
+  .themeToggle { font-size: 0.66rem; }
+
+  .routeLinks {
+    min-width: 0;
+    overflow-x: auto;
+    gap: 14px;
+    scrollbar-width: none;
+  }
 }
