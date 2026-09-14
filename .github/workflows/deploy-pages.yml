@@ -30,6 +30,11 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
 
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
       - name: Install dependencies
         working-directory: web
         run: npm ci
