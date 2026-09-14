@@ -771,8 +771,8 @@ export default function DitherLoom({ password, length, options, copied, generate
           </a>
           <a className={styles.externalLink} href="https://www.npmjs.com/package/keyloom" target="_blank" rel="noreferrer" aria-label="Keyloom on npm" title="Keyloom on npm">
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="2.5" y="5" width="19" height="14" rx="1" fill="currentColor" />
-              <path fill="var(--paper)" d="M6 8.5h12v7H15v-4.5h-2v4.5h-2v-4.5H9v4.5H6z" />
+              <rect x="2.5" y="5" width="19" height="14" fill="currentColor" />
+              <text x="12" y="15.6" fill="var(--paper)" fontFamily="Arial, sans-serif" fontSize="7.2" fontWeight="700" letterSpacing="0.1" textAnchor="middle">npm</text>
             </svg>
           </a>
           <button type="button" className={styles.modeToggle} onClick={onModeToggle} aria-pressed={mode === 'dark'} aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
