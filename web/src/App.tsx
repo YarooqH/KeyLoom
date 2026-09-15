@@ -29,7 +29,7 @@ interface GeneratorOptions {
 }
 
 export default function App() {
-  const [route, setRoute] = useState(window.location.hash || '#cipherlab');
+  const [route, setRoute] = useState(window.location.hash || '#dither');
   const [password, setPassword] = useState('');
   const [length, setLength] = useState(12);
   const [options, setOptions] = useState<GeneratorOptions>({
@@ -46,16 +46,12 @@ export default function App() {
   const [ditherMode, setDitherMode] = useState<DitherMode>(() => window.localStorage.getItem('keyloom-dither-mode') === 'dark' ? 'dark' : 'light');
   const theme = getTheme(themeId);
   const isDither = route === '#dither';
-  const ditherNav = ditherMode === 'dark'
-    ? { ink: '#f1ede4', muted: '#b9b2a6', accent: '#f47a62' }
-    : { ink: '#171715', muted: '#706d66', accent: '#e24a30' };
-
   useEffect(() => {
     window.localStorage.setItem('keyloom-dither-mode', ditherMode);
   }, [ditherMode]);
 
   useEffect(() => {
-    const handleHash = () => setRoute(window.location.hash || '#classic');
+    const handleHash = () => setRoute(window.location.hash || '#dither');
     window.addEventListener('hashchange', handleHash);
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
@@ -260,15 +256,15 @@ export default function App() {
 
       {!isDither && <div className={styles.gridOverlay} />}
 
-      {!isDither && <nav className={styles.nav} data-dither-theme={isDither ? ditherMode : undefined} style={route === '#cipherlab' || isDither ? { pointerEvents: 'auto', zIndex: 100 } : undefined}>
+      {!isDither && <nav className={styles.nav} style={route === '#cipherlab' ? { pointerEvents: 'auto', zIndex: 100 } : undefined}>
         <div className={styles.logoGroup}>
-          <svg className={styles.logoMark} style={isDither ? { color: ditherNav.ink } : undefined} viewBox="0 0 24 24" aria-hidden="true">
+          <svg className={styles.logoMark} viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="5" cy="4" r="1.5" /><circle cx="5" cy="8" r="1.5" /><circle cx="5" cy="12" r="1.5" />
             <circle cx="5" cy="16" r="1.5" /><circle cx="5" cy="20" r="1.5" /><circle cx="9" cy="11" r="1.5" />
             <circle cx="13" cy="7" r="1.5" /><circle cx="17" cy="3" r="1.5" /><circle cx="9" cy="13" r="1.5" />
             <circle cx="13" cy="17" r="1.5" /><circle cx="17" cy="21" r="1.5" /><circle className={styles.logoAccent} cx="9" cy="12" r="1.5" />
           </svg>
-          <span className={styles.logoText} style={isDither ? { color: ditherNav.ink } : undefined}>keyloom</span>
+          <span className={styles.logoText}>keyloom</span>
         </div>
         <div className={styles.navTools}>
           <div className={styles.routeLinks}>
@@ -286,29 +282,23 @@ export default function App() {
                 key={hash}
                 href={hash}
                 onClick={() => setRoute(hash)}
-                style={{
-                  color: route === hash ? (isDither ? ditherNav.accent : '#ffaa00') : (isDither ? ditherNav.muted : 'rgba(255,255,255,0.6)'),
+                  style={{
+                  color: route === hash ? '#ffaa00' : 'rgba(255,255,255,0.6)',
                   fontSize: '0.78rem',
                   textDecoration: 'none',
                   fontFamily: "'Space Mono', monospace",
                   letterSpacing: '0.08em',
                   transition: 'all 0.2s',
-                  padding: isDither ? '6px 0' : '4px 8px',
-                  borderRadius: isDither ? '0' : '6px',
-                  background: isDither ? 'transparent' : (route === hash ? 'rgba(255, 170, 0, 0.12)' : 'rgba(255,255,255,0.03)'),
-                  border: isDither ? '0' : `1px solid ${route === hash ? 'rgba(255, 170, 0, 0.3)' : 'transparent'}`,
-                  borderBottom: isDither && route === hash ? `1px solid ${ditherNav.accent}` : undefined,
+                  padding: '4px 8px',
+                  borderRadius: '6px',
+                  background: route === hash ? 'rgba(255, 170, 0, 0.12)' : 'rgba(255,255,255,0.03)',
+                  border: `1px solid ${route === hash ? 'rgba(255, 170, 0, 0.3)' : 'transparent'}`,
                 }}
               >
                 {label}
               </a>
             ))}
           </div>
-          {isDither && (
-            <button type="button" className={styles.themeToggle} onClick={() => setDitherMode((current) => current === 'light' ? 'dark' : 'light')} aria-pressed={ditherMode === 'dark'} aria-label={`Switch to ${ditherMode === 'light' ? 'dark' : 'light'} mode`}>
-              {ditherMode}
-            </button>
-          )}
         </div>
       </nav>}
 
