@@ -90,16 +90,22 @@
 
 .routeLinks {
   display: flex;
-  gap: 10px;
+  width: 100%;
+  max-width: 940px;
+  margin-left: auto;
   align-items: center;
+  justify-content: space-between;
+  gap: 14px;
   pointer-events: auto;
 }
 
 .navTools {
   display: flex;
+  flex: 1;
   min-width: 0;
   align-items: center;
   gap: 22px;
+  margin-left: 48px;
 }
 
 .navButton {
@@ -236,7 +242,12 @@
 
   .navTools { gap: 12px; }
 
+  .navTools { margin-left: 20px; }
+
   .routeLinks {
+    width: auto;
+    max-width: none;
+    justify-content: flex-start;
     min-width: 0;
     overflow-x: auto;
     gap: 14px;
