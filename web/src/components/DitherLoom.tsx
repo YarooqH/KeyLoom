@@ -769,10 +769,10 @@ export default function DitherLoom({ password, length, options, copied, generate
               <path fill="currentColor" d="M12 .6a11.4 11.4 0 0 0-3.6 22.2c.57.1.78-.25.78-.55v-2.05c-3.17.69-3.84-1.34-3.84-1.34-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.67 1.24 3.32.95.1-.74.4-1.24.73-1.53-2.53-.29-5.18-1.26-5.18-5.62 0-1.24.44-2.26 1.17-3.06-.12-.29-.51-1.45.11-3.02 0 0 .95-.31 3.13 1.17a10.9 10.9 0 0 1 5.7 0c2.18-1.48 3.13-1.17 3.13-1.17.62 1.57.23 2.73.11 3.02.73.8 1.17 1.82 1.17 3.06 0 4.37-2.66 5.32-5.2 5.61.41.35.78 1.04.78 2.1v3.12c0 .3.2.66.79.55A11.4 11.4 0 0 0 12 .6Z" />
             </svg>
           </a>
-          <a className={styles.externalLink} href="https://www.npmjs.com/package/keyloom" target="_blank" rel="noreferrer" aria-label="Keyloom on npm" title="Keyloom on npm">
-            <svg viewBox="0 0 48 24" aria-hidden="true">
-              <rect width="48" height="24" fill="#e60000" />
-              <path fill="#fff" fillRule="evenodd" d="M4 4h12v16h-4V8H8v12H4zm15 0h12v16h-8v4h-4zm4 4v8h4V8zm12-4h10v16h-4V8h-2v12h-4V8h-2v12h-4V4z" />
+          <a className={`${styles.externalLink} ${styles.npmLink}`} href="https://www.npmjs.com/package/keyloom" target="_blank" rel="noreferrer" aria-label="Keyloom on npm" title="Keyloom on npm">
+            <svg className={styles.npmMark} viewBox="0 0 48 24" aria-hidden="true">
+              <rect width="48" height="24" fill="currentColor" />
+              <path fill="var(--paper)" fillRule="evenodd" d="M4 4h12v16h-4V8H8v12H4zm15 0h12v16h-8v4h-4zm4 4v8h4V8zm12-4h10v16h-4V8h-2v12h-4V8h-2v12h-4V4z" />
             </svg>
           </a>
           <button type="button" className={styles.modeToggle} onClick={onModeToggle} aria-pressed={mode === 'dark'} aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
