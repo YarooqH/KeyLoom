@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type PointerEvent as ReactPointerEvent } from 'react';
 import styles from './DitherLoom.module.css';
 
 interface GeneratorOptions {
@@ -253,7 +253,7 @@ function DitherPassword({ password, generateTrigger, mode }: Pick<DitherLoomProp
   }, [colors.accent, colors.ink, generateTrigger, password]);
 
   return (
-    <div className={styles.passwordBlock} style={{ width: `min(${preferredWidth}px, 100%)` }}>
+    <span className={styles.passwordBlock} style={{ width: `${preferredWidth}px`, maxWidth: '100%' }}>
       <canvas
         ref={canvasRef}
         className={`${styles.password} ${password.length > 24 ? styles.passwordLong : ''}`}
@@ -261,7 +261,7 @@ function DitherPassword({ password, generateTrigger, mode }: Pick<DitherLoomProp
         aria-hidden="true"
       />
       <span className={styles.srOnly} role="status" aria-live="polite" aria-atomic="true">{password}</span>
-    </div>
+    </span>
   );
 }
 
@@ -456,6 +456,23 @@ function DitherField({ length, options, generateTrigger, copied, mode }: Pick<Di
     let burstStartedAt = -10;
     let cursorX = -1000;
     let cursorY = -1000;
+    let sliderDragging = false;
+    let sliderHoverMix = 0;
+    let sliderDragMix = 0;
+    let sliderReleaseStartedAt = -10;
+    let copyHoverMix = 0;
+    const sliderControl = document.getElementById('dither-length');
+    const startSliderDrag = () => {
+      sliderDragging = true;
+    };
+    const endSliderDrag = () => {
+      if (!sliderDragging) return;
+      sliderDragging = false;
+      sliderReleaseStartedAt = window.performance.now() / 1000;
+    };
+    const pulseSliderFromKeyboard = () => {
+      if (!sliderDragging) sliderReleaseStartedAt = window.performance.now() / 1000;
+    };
     const pointer = (event: PointerEvent) => {
       stateRef.current.pointerX = event.clientX;
       stateRef.current.pointerY = event.clientY;
@@ -621,7 +638,7 @@ function DitherField({ length, options, generateTrigger, copied, mode }: Pick<Di
         context.fillStyle = haze;
         context.fillRect(passwordRect.left - 80, passwordRect.top - 80, passwordRect.width + 160, passwordRect.height + 160);
       }
-      const density = isMobile ? 820 : 1500;
+      const density = isMobile ? 1120 : 2100;
       for (let index = 0; index < density; index += 1) {
         const progress = seed(index + 1);
         const phase = seed(index + 73) * Math.PI * 2;
@@ -663,22 +680,77 @@ function DitherField({ length, options, generateTrigger, copied, mode }: Pick<Di
         ring(passwordRect.left + passwordRect.width / 2, passwordY, passwordRect.width / 2 + 45, 58, isMobile ? 110 : 190, burstProgress);
       }
 
-      const sliderElement = document.getElementById('dither-length');
-      const sliderRect = sliderElement?.getBoundingClientRect();
+      const sliderRect = sliderControl?.getBoundingClientRect();
       const sliderY = sliderRect ? sliderRect.top + sliderRect.height / 2 : (isMobile ? height * 0.51 : height * 0.57);
       const sliderStart = sliderRect?.left ?? width * (isMobile ? 0.12 : 0.31);
       const sliderEnd = sliderRect?.right ?? width * (isMobile ? 0.88 : 0.69);
       const sliderProgress = (state.length - 4) / 60;
+      const sliderEngaged = sliderControl?.matches(':hover, :focus-visible') ? 1 : 0;
+      sliderHoverMix += (sliderEngaged - sliderHoverMix) * (reducedMotion ? 1 : 0.14);
+      sliderDragMix += ((sliderDragging ? 1 : 0) - sliderDragMix) * (reducedMotion ? 1 : 0.2);
+      const pointerProgress = Math.max(0, Math.min(1, (cursorX - sliderStart) / Math.max(1, sliderEnd - sliderStart)));
       for (let index = 0; index < 180; index += 1) {
         const progress = (index + seed(index + 211) * 0.85) / 180;
         const phase = seed(index + 223) * Math.PI * 2;
-        const x = sliderStart + (sliderEnd - sliderStart) * progress + Math.sin(time * 0.5 + phase) * 1.8;
+        const wake = sliderHoverMix * Math.max(0, 1 - Math.abs(progress - pointerProgress) / 0.14) ** 2;
+        const stream = Math.sin(time * 5.2 - progress * 21 + phase);
+        const x = sliderStart + (sliderEnd - sliderStart) * progress
+          + Math.sin(time * 0.5 + phase) * 1.8
+          + sliderDragMix * stream * 3.6;
         const isActive = progress <= sliderProgress;
-        const y = sliderY + (seed(index) - 0.5) * (isActive ? 8 : 5) + Math.sin(time * 0.7 + phase) * 1.3;
-        dot(x, y, isActive ? 1.25 + seed(index + 229) : 0.8 + seed(index + 229) * 0.65, isActive ? colors.accent : colors.ink, isActive ? 0.86 : 0.34);
+        const y = sliderY
+          + (seed(index) - 0.5) * (isActive ? 8 + wake * 8 : 5 + wake * 5)
+          + Math.sin(time * 0.7 + phase) * (1.3 + wake * 1.8)
+          + sliderDragMix * stream * 1.8;
+        dot(
+          x,
+          y,
+          (isActive ? 1.25 + seed(index + 229) : 0.8 + seed(index + 229) * 0.65) + wake * 0.55 + sliderDragMix * 0.18,
+          isActive ? colors.accent : colors.ink,
+          Math.min(1, (isActive ? 0.86 : 0.34) + wake * 0.28 + sliderDragMix * 0.08),
+        );
       }
       const thumbX = sliderStart + (sliderEnd - sliderStart) * sliderProgress;
-      cluster(thumbX, sliderY, 24 + burst * 9, 24 + burst * 9, 118, 0.62, 1, time, burst * 0.7);
+      if (sliderDragMix > 0.01) {
+        for (let index = 0; index < 64; index += 1) {
+          const distance = seed(index + 823) ** 1.5 * Math.min(110, (sliderEnd - sliderStart) * sliderProgress);
+          const phase = seed(index + 857) * Math.PI * 2;
+          dot(
+            thumbX - distance,
+            sliderY + Math.sin(time * 4.6 + phase + distance * 0.06) * (2 + distance * 0.035),
+            0.55 + seed(index + 881) * 1.05,
+            seed(index + 907) < 0.72 ? colors.accent : colors.ink,
+            sliderDragMix * (0.16 + (1 - distance / 110) * 0.46),
+          );
+        }
+      }
+      const thumbRadius = 24 + burst * 9 + sliderHoverMix * 4 - sliderDragMix * 7;
+      cluster(
+        thumbX,
+        sliderY,
+        thumbRadius,
+        thumbRadius * (1 - sliderDragMix * 0.18),
+        Math.round(118 + sliderHoverMix * 24 + sliderDragMix * 34),
+        0.62,
+        1,
+        time,
+        burst * 0.7 + sliderDragMix * 0.2,
+      );
+      const releaseProgress = (time - sliderReleaseStartedAt) / 0.46;
+      if (!reducedMotion && releaseProgress >= 0 && releaseProgress < 1) {
+        const releaseAlpha = Math.sin(releaseProgress * Math.PI);
+        for (let index = 0; index < 46; index += 1) {
+          const angle = seed(index + 941) * Math.PI * 2;
+          const distance = 18 + releaseProgress * 34 + seed(index + 953) * 8;
+          dot(
+            thumbX + Math.cos(angle) * distance,
+            sliderY + Math.sin(angle) * distance * 0.42,
+            0.6 + seed(index + 967) * 1.1,
+            seed(index + 977) < 0.64 ? colors.accent : colors.ink,
+            releaseAlpha * 0.5,
+          );
+        }
+      }
 
       const toggleElements = [...document.querySelectorAll<HTMLElement>('[data-dither-toggle]')];
       const toggleCenters: { x: number; y: number }[] = [];
@@ -724,8 +796,20 @@ function DitherField({ length, options, generateTrigger, copied, mode }: Pick<Di
       );
       const copyElement = document.querySelector<HTMLElement>('[data-dither-copy]');
       const copyRect = copyElement?.getBoundingClientRect();
-      if (state.copied && copyRect) {
-        cluster(copyRect.left + copyRect.width / 2, copyRect.top + copyRect.height / 2, 35, 23, 90, 0.72, 1, time, 0.25);
+      const copyActive = copyElement?.matches(':hover, :focus-visible') ? 1 : 0;
+      copyHoverMix += (copyActive - copyHoverMix) * (reducedMotion ? 1 : 0.16);
+      if (copyRect && copyHoverMix > 0.01) {
+        for (let index = 0; index < 34; index += 1) {
+          const progress = seed(index + 1123);
+          const phase = seed(index + 1151) * Math.PI * 2;
+          dot(
+            copyRect.left + copyRect.width / 2 + (progress - 0.5) * 30 + Math.sin(time * 1.8 + phase) * 1.2,
+            copyRect.bottom + 1 + (seed(index + 1171) - 0.5) * 5,
+            0.55 + seed(index + 1187) * 0.8,
+            seed(index + 1201) < 0.28 ? colors.accent : colors.ink,
+            copyHoverMix * (0.2 + seed(index + 1213) * 0.42),
+          );
+        }
       }
 
       frame = window.requestAnimationFrame(draw);
@@ -733,11 +817,19 @@ function DitherField({ length, options, generateTrigger, copied, mode }: Pick<Di
 
     resize();
     frame = window.requestAnimationFrame(draw);
+    sliderControl?.addEventListener('pointerdown', startSliderDrag);
+    sliderControl?.addEventListener('input', pulseSliderFromKeyboard);
+    window.addEventListener('pointerup', endSliderDrag);
+    window.addEventListener('pointercancel', endSliderDrag);
     window.addEventListener('resize', resize);
     window.addEventListener('pointermove', pointer, { passive: true });
     window.addEventListener('pointerleave', leave);
     return () => {
       window.cancelAnimationFrame(frame);
+      sliderControl?.removeEventListener('pointerdown', startSliderDrag);
+      sliderControl?.removeEventListener('input', pulseSliderFromKeyboard);
+      window.removeEventListener('pointerup', endSliderDrag);
+      window.removeEventListener('pointercancel', endSliderDrag);
       window.removeEventListener('resize', resize);
       window.removeEventListener('pointermove', pointer);
       window.removeEventListener('pointerleave', leave);
@@ -749,6 +841,11 @@ function DitherField({ length, options, generateTrigger, copied, mode }: Pick<Di
 
 export default function DitherLoom({ password, length, options, copied, generateTrigger, mode, onLengthChange, onOptionsChange, onGenerate, onCopy, onModeToggle }: DitherLoomProps) {
   const toggle = (key: keyof GeneratorOptions) => onOptionsChange({ ...options, [key]: !options[key] });
+  const positionPasswordTooltip = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const tooltipX = Math.max(52, Math.min(bounds.width - 52, event.clientX - bounds.left));
+    event.currentTarget.style.setProperty('--copy-x', `${tooltipX}px`);
+  };
 
   return (
     <section className={styles.scene} data-theme={mode} aria-label="Dither Loom password generator">
@@ -783,14 +880,28 @@ export default function DitherLoom({ password, length, options, copied, generate
       <div className={styles.content}>
         <h1>Create a password</h1>
         <div className={styles.passwordLine}>
-          <DitherPassword password={password} generateTrigger={generateTrigger} mode={mode} />
+          <button type="button" className={styles.passwordCopyTarget} onClick={onCopy} onPointerMove={positionPasswordTooltip} aria-label={copied ? 'Password copied' : 'Copy generated password'}>
+            <DitherPassword password={password} generateTrigger={generateTrigger} mode={mode} />
+            <span className={styles.passwordTooltip} aria-hidden="true">
+              <span className={styles.tooltipDot} />
+              {copied ? 'Copied' : 'Click to copy'}
+            </span>
+          </button>
         </div>
 
         <div className={styles.lengthGroup}>
           <div className={styles.lengthHeader}>
             <label htmlFor="dither-length">Length</label>
             <div className={styles.lengthActions}>
-              <button type="button" className={styles.copyButton} data-dither-copy data-copied={copied} onClick={onCopy} aria-label={copied ? 'Password copied' : 'Copy password'}>{copied ? 'Copied' : 'Copy'}</button>
+              <button type="button" className={styles.copyButton} data-dither-copy data-copied={copied} onClick={onCopy} aria-label={copied ? 'Password copied' : 'Copy password'}>
+                <svg className={styles.copyMark} viewBox="0 0 24 24" aria-hidden="true">
+                  <g className={styles.copySheets}>
+                    <path d="M5 16V4h11" />
+                    <rect x="8" y="7" width="11" height="12" />
+                  </g>
+                  <path className={styles.copyTick} d="m4.5 12.5 5 4.5 10-10.5" />
+                </svg>
+              </button>
               <output>{length}</output>
             </div>
           </div>
