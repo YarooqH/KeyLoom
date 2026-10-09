@@ -1,32 +1,22 @@
-# React + TypeScript + Vite
+# KeyLoom Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The interactive web app for [KeyLoom](../README.md), built with React, TypeScript, Vite, Tailwind and Three.js. It uses the `keyloom` library from the repo root (`"keyloom": "file:.."`).
 
-Currently, two official plugins are available:
+Live: https://yarooqh.github.io/KeyLoom/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Development
 
-## React Compiler
+Build the library first, then start the app:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install && npm run build   # in the repo root
+cd web
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Other scripts: `npm run build` (type-check + production build), `npm run lint` (Oxlint), `npm run preview`.
+
+## Deployment
+
+Pushes are deployed to GitHub Pages by `.github/workflows/deploy-pages.yml`. When `GITHUB_ACTIONS` is set, Vite uses `/KeyLoom/` as the base path.
