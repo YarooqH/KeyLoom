@@ -1,6 +1,8 @@
 # KeyLoom CLI
 
-A secure, customizable password generator CLI tool that generates random passwords and automatically copies them to your clipboard.
+A secure, customizable password generator for the command line, Node.js and the browser. Generate random passwords, copy them to your clipboard, or embed the generator in your own app.
+
+**Try it in the browser:** https://yarooqh.github.io/KeyLoom/
 
 ## Features
 
@@ -10,6 +12,8 @@ A secure, customizable password generator CLI tool that generates random passwor
 - 🚀 **Easy to use** with simple commands and sensible defaults
 - 🎯 **Multiple presets** for different use cases (simple, strong, PIN)
 - 🔧 **Flexible character sets** with inclusion/exclusion options
+- 📦 **Library + CLI** - use it from the terminal or `import` it in Node.js and browser apps
+- 🌐 **Web app** - an interactive generator, see [`web/`](web/)
 
 ## Installation
 
@@ -49,7 +53,7 @@ keyloom [options] [command]
 - `--no-lowercase` - Exclude lowercase letters
 - `--no-uppercase` - Exclude uppercase letters  
 - `--no-numbers` - Exclude numbers
-- `--no-symbols` - Exclude symbols (!@#$%^&*()_+-=[]{}|;:,.<>?)
+- `--no-symbols` - Exclude symbols (!@#$%^&*()_+-=[]{}|;:,.<>?). Symbols are included by default
 - `-x, --exclude-ambiguous` - Exclude ambiguous characters (il1Lo0O)
 - `--no-copy` - Don't copy to clipboard, just display
 - `-h, --help` - Display help information
@@ -77,7 +81,7 @@ keyloom --no-uppercase --no-symbols
 ### Preset Commands
 
 #### Simple Password
-Generate a simple password with letters, numbers, and symbols (no ambiguous characters):
+Generate a simple password with letters, numbers, and symbols (no ambiguous characters). Default: 12 characters:
 
 ```bash
 keyloom simple
@@ -139,7 +143,9 @@ const password = generatePassword({
 });
 ```
 
-It uses `crypto.randomBytes` in Node.js and `window.crypto.getRandomValues` in browsers to ensuring cryptographically secure generation in both environments.
+`length` is required. Lowercase, uppercase and numbers default to `true`; `includeSymbols` and `excludeAmbiguous` default to `false` in the library. `generatePassword` throws if no character set is selected.
+
+It uses `crypto.randomBytes` in Node.js and `window.crypto.getRandomValues` in browsers for cryptographically secure generation in both environments.
 
 ## Character Sets
 
@@ -151,7 +157,7 @@ It uses `crypto.randomBytes` in Node.js and `window.crypto.getRandomValues` in b
 
 ## Security
 
-This tool uses Node.js's built-in `crypto.getRandomValues()` function to ensure cryptographically secure random number generation. This makes the generated passwords suitable for security-sensitive applications.
+Randomness comes from the platform's cryptographically secure generator (`crypto.randomBytes` in Node.js, `window.crypto.getRandomValues` in browsers), never `Math.random()`. Passwords are generated locally and are not sent anywhere. The CLI accepts lengths from 1 to 256.
 
 ## Requirements
 
@@ -166,14 +172,27 @@ This tool uses Node.js's built-in `crypto.getRandomValues()` function to ensure 
 3. Link for local testing: `npm link`
 4. Test the CLI: `keyloom --help`
 
+Build the TypeScript sources with `npm run build` (or `npm run dev` to watch).
+
 ### Project Structure
 
 ```
 keyloom/
-├── bin/
-│   └── passgen.js      # Main CLI script
-├── package.json        # Package configuration
-└── README.md          # Documentation
+├── src/
+│   ├── index.ts        # Library: generatePassword, CHAR_SETS
+│   └── passgen.ts      # CLI entry point (compiled to dist/passgen.js)
+├── web/                # React + Vite web app (deployed to GitHub Pages)
+├── bin/                # Legacy CLI script
+├── package.json
+└── README.md
+```
+
+### Web App
+
+```bash
+cd web
+npm install
+npm run dev
 ```
 
 ## License
@@ -185,6 +204,10 @@ MIT License - see the LICENSE file for details.
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Changelog
+
+### v1.0.4
+- Library export (`import { generatePassword } from 'keyloom'`) with browser support
+- Web app with an interactive generator
 
 ### v1.0.0
 - Initial release
